@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adev — More than developing.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0f0f13;
+      --bg2: #151519;
+      --bg3: #1a1a1f;
+      --border: #2a2a35;
+      --blue: #3b82f6;
+      --blue-dk: #2563eb;
+      --blue-lt: rgba(59,130,246,0.12);
+      --text: #f0f0f8;
+      --muted: #8b8ba8;
+      --light: #5a5a72;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; background: rgba(15,15,19,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .nav-logo { display: flex; align-items: center; gap: 10px; }
+    .nav-logo svg { width: 36px; height: 36px; }
+    .nav-wordmark { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; font-family: 'Space Grotesk', sans-serif; }
+    .nav-wordmark span { color: var(--blue); }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 14px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { background: var(--blue); color: #fff !important; padding: 8px 20px; border-radius: 8px; font-weight: 500 !important; font-size: 14px !important; transition: background 0.2s !important; }
+    .nav-cta:hover { background: var(--blue-dk) !important; }
+
+    /* HERO */
+    .hero { padding: 140px 24px 80px; text-align: center; background: var(--bg); }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--blue-lt); color: #93c5fd; font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 99px; margin-bottom: 24px; letter-spacing: 0.02em; }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--blue); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
+    h1 { font-size: clamp(44px, 6.5vw, 80px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; color: var(--text); max-width: 760px; margin: 0 auto 20px; font-family: 'Space Grotesk', sans-serif; }
+    h1 em { font-style: normal; color: var(--blue); }
+    .hero-sub { font-size: clamp(16px, 2vw, 20px); font-weight: 300; color: var(--muted); max-width: 520px; margin: 0 auto 40px; }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--blue); color: #fff; font-size: 15px; font-weight: 600; padding: 13px 28px; border-radius: 10px; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+    .btn-primary:hover { background: var(--blue-dk); transform: translateY(-1px); }
+    .btn-secondary { background: var(--bg2); color: var(--text); font-size: 15px; font-weight: 500; padding: 13px 28px; border-radius: 10px; border: 1px solid var(--border); text-decoration: none; transition: border-color 0.2s; }
+    .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+
+    /* STATS */
+    .stats { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 32px 24px; display: flex; justify-content: center; gap: 64px; flex-wrap: wrap; }
+    .stat-num { font-size: 32px; font-weight: 800; color: #ffffff; letter-spacing: 0.04em; line-height: 1; }
+    .stat-num span { color: #ffffff; }
+    .stat-label { font-size: 13px; color: #ffffff; margin-top: 6px; letter-spacing: 0.03em; }
+
+    /* SECTIONS */
+    .section { padding: 88px 24px; max-width: 1060px; margin: 0 auto; }
+    .section-center { text-align: center; }
+    .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px; }
+    h2 { font-size: clamp(28px, 4vw, 48px); font-weight: 800; letter-spacing: -0.01em; line-height: 1.08; color: var(--text); margin-bottom: 14px; font-family: 'Space Grotesk', sans-serif; }
+    .section-sub { font-size: 17px; font-weight: 300; color: var(--muted); max-width: 500px; margin: 0 auto 56px; }
+    .bg2 { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    /* SERVICES */
+    .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 860px; margin: 0 auto; }
+    .svc { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 36px; transition: border-color 0.2s, box-shadow 0.2s; text-align: center; }
+    .svc:hover { border-color: var(--blue); box-shadow: 0 4px 24px rgba(59,130,246,0.08); }
+    .svc-icon { width: 48px; height: 48px; background: var(--blue-lt); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px; }
+    .svc h3 { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .svc p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+    .svc-link { font-size: 14px; font-weight: 500; color: var(--blue); text-decoration: none; }
+
+    /* BEFORE AFTER */
+    .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+    .ba-card { border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+    .ba-label { padding: 10px 16px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+    .ba-before .ba-label { background: #fee2e2; color: #dc2626; }
+    .ba-after .ba-label { background: #dcfce7; color: #16a34a; }
+    .ba-screen { padding: 20px; background: var(--bg2); min-height: 200px; }
+    /* Before — ugly site */
+    .ugly-nav { background: #003366; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; }
+    .ugly-logo { color: #ffff00; font-size: 11px; font-weight: 900; font-family: 'Times New Roman', serif; }
+    .ugly-links { display: flex; gap: 8px; }
+    .ugly-links a { color: #fff; font-size: 9px; text-decoration: underline; }
+    .ugly-hero { background: linear-gradient(#1a1a2e, #16213e); padding: 16px; text-align: center; }
+    .ugly-title { color: #ff0000; font-size: 14px; font-weight: 900; font-family: 'Times New Roman', serif; text-shadow: 2px 2px yellow; }
+    .ugly-sub { color: #00ff00; font-size: 8px; margin-top: 4px; }
+    .ugly-btn { background: #ff6600; color: #fff; border: 3px solid #ffff00; font-size: 8px; padding: 4px 8px; margin-top: 8px; display: inline-block; cursor: pointer; }
+    .ugly-body { padding: 10px; background: #f5f5f5; }
+    .ugly-text { font-size: 8px; color: #333; line-height: 1.4; font-family: 'Times New Roman', serif; }
+    .ugly-img { width: 100%; height: 40px; background: repeating-linear-gradient(45deg, #ccc, #ccc 4px, #fff 4px, #fff 8px); margin-top: 6px; }
+    /* After — clean Adev site */
+    .clean-nav { background: #111827; padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; }
+    .clean-logo { color: #fff; font-size: 11px; font-weight: 700; letter-spacing: -0.3px; }
+    .clean-logo span { color: #3b82f6; }
+    .clean-btn-sm { background: #3b82f6; color: #fff; font-size: 8px; padding: 3px 8px; border-radius: 4px; }
+    .clean-hero { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 20px 14px; text-align: center; }
+    .clean-title { color: #fff; font-size: 14px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.2; }
+    .clean-title span { color: #3b82f6; }
+    .clean-sub { color: #94a3b8; font-size: 8px; margin-top: 4px; line-height: 1.5; }
+    .clean-cta { background: #3b82f6; color: #fff; font-size: 8px; padding: 5px 12px; border-radius: 5px; margin-top: 10px; display: inline-block; font-weight: 600; }
+    .clean-body { padding: 10px; background: #f8fafc; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .clean-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; }
+    .clean-card-title { font-size: 8px; font-weight: 700; color: #111827; }
+    .clean-card-text { font-size: 7px; color: #6b7280; margin-top: 2px; line-height: 1.4; }
+
+    /* INVOICE DEMO */
+    .invoice-demo { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 16px; }
+    .inv-header { background: #111827; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .inv-logo { color: #fff; font-size: 14px; font-weight: 700; }
+    .inv-logo span { color: #3b82f6; }
+    .inv-badge { background: #3b82f6; color: #fff; font-size: 10px; padding: 3px 10px; border-radius: 99px; font-weight: 600; }
+    .inv-body { padding: 24px; }
+    .inv-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .inv-to label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .inv-to h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-top: 2px; }
+    .inv-meta { text-align: right; }
+    .inv-meta p { font-size: 12px; color: var(--muted); }
+    .inv-meta strong { color: var(--text); }
+    .inv-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    .inv-table th { background: var(--bg2); padding: 8px 12px; font-size: 11px; font-weight: 600; color: var(--muted); text-align: left; text-transform: uppercase; letter-spacing: 0.05em; }
+    .inv-table td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid var(--border); color: var(--text); }
+    .inv-totals { background: var(--bg2); border-radius: 10px; padding: 16px; max-width: 260px; margin-left: auto; }
+    .inv-total-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--muted); }
+    .inv-total-row.final { font-size: 16px; font-weight: 700; color: var(--text); border-top: 1px solid var(--border); padding-top: 8px; margin-top: 4px; }
+    .inv-footer { background: #111827; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .inv-footer p { font-size: 11px; color: #6b7280; }
+    .inv-pay-btn { background: #3b82f6; color: #fff; font-size: 11px; font-weight: 600; padding: 6px 16px; border-radius: 6px; border: none; cursor: pointer; }
+
+    /* INDUSTRY DEMOS */
+    .demos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .demo-card { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; cursor: pointer; }
+    .demo-card:hover { border-color: var(--blue); box-shadow: 0 4px 24px rgba(59,130,246,0.1); }
+    .demo-preview { height: 180px; position: relative; overflow: hidden; }
+    .demo-info { padding: 16px; background: var(--bg); }
+    .demo-industry { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 4px; }
+    .demo-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .demo-desc { font-size: 12px; color: var(--muted); }
+
+    /* Contractor demo */
+    .demo-contractor { background: linear-gradient(135deg, #1c1917 0%, #292524 100%); padding: 0; }
+    .dc-nav { background: rgba(0,0,0,0.5); padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; }
+    .dc-logo { color: #f59e0b; font-size: 10px; font-weight: 800; letter-spacing: -0.3px; }
+    .dc-btn { background: #f59e0b; color: #000; font-size: 7px; padding: 3px 8px; border-radius: 4px; font-weight: 700; }
+    .dc-hero { padding: 16px 12px; }
+    .dc-tag { background: rgba(245,158,11,0.2); color: #f59e0b; font-size: 8px; font-weight: 600; padding: 2px 8px; border-radius: 99px; display: inline-block; margin-bottom: 8px; }
+    .dc-title { color: #fff; font-size: 13px; font-weight: 800; line-height: 1.2; letter-spacing: -0.3px; }
+    .dc-sub { color: #a8a29e; font-size: 8px; margin-top: 4px; }
+    .dc-stats { display: flex; gap: 12px; margin-top: 10px; }
+    .dc-stat { text-align: center; }
+    .dc-stat-num { color: #f59e0b; font-size: 11px; font-weight: 800; }
+    .dc-stat-label { color: #78716c; font-size: 7px; }
+
+    /* Restaurant demo */
+    .demo-restaurant { background: linear-gradient(135deg, #0f0a00 0%, #1c1200 100%); }
+    .dr-nav { background: rgba(0,0,0,0.6); padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; }
+    .dr-logo { color: #f97316; font-size: 10px; font-weight: 800; font-style: italic; }
+    .dr-btn { background: #f97316; color: #fff; font-size: 7px; padding: 3px 8px; border-radius: 4px; font-weight: 700; }
+    .dr-hero { padding: 12px; text-align: center; }
+    .dr-tag { background: rgba(249,115,22,0.2); color: #f97316; font-size: 7px; font-weight: 600; padding: 2px 8px; border-radius: 99px; display: inline-block; margin-bottom: 6px; }
+    .dr-title { color: #fff; font-size: 13px; font-weight: 800; letter-spacing: -0.3px; }
+    .dr-sub { color: #a16207; font-size: 8px; margin-top: 3px; font-style: italic; }
+    .dr-menu { display: flex; gap: 6px; margin-top: 10px; justify-content: center; }
+    .dr-item { background: rgba(249,115,22,0.15); border: 1px solid rgba(249,115,22,0.3); border-radius: 6px; padding: 4px 8px; text-align: center; }
+    .dr-item-name { color: #fff; font-size: 7px; font-weight: 600; }
+    .dr-item-price { color: #f97316; font-size: 7px; }
+
+    /* Landscaping demo */
+    .demo-landscaping { background: linear-gradient(135deg, #052e16 0%, #14532d 100%); }
+    .dl-nav { background: rgba(0,0,0,0.4); padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; }
+    .dl-logo { color: #4ade80; font-size: 10px; font-weight: 800; }
+    .dl-btn { background: #4ade80; color: #052e16; font-size: 7px; padding: 3px 8px; border-radius: 4px; font-weight: 700; }
+    .dl-hero { padding: 12px; }
+    .dl-tag { background: rgba(74,222,128,0.2); color: #4ade80; font-size: 7px; font-weight: 600; padding: 2px 8px; border-radius: 99px; display: inline-block; margin-bottom: 6px; }
+    .dl-title { color: #fff; font-size: 13px; font-weight: 800; line-height: 1.2; }
+    .dl-sub { color: #86efac; font-size: 8px; margin-top: 3px; }
+    .dl-services { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+    .dl-service { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3); border-radius: 99px; padding: 3px 8px; color: #4ade80; font-size: 7px; font-weight: 600; }
+
+    /* Cleaning demo */
+    .demo-cleaning { background: linear-gradient(135deg, #0c1445 0%, #1e3a8a 100%); }
+    .dcc-nav { background: rgba(0,0,0,0.4); padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; }
+    .dcc-logo { color: #fff; font-size: 10px; font-weight: 800; }
+    .dcc-logo span { color: #60a5fa; }
+    .dcc-btn { background: #fff; color: #1e3a8a; font-size: 7px; padding: 3px 8px; border-radius: 4px; font-weight: 700; }
+    .dcc-hero { padding: 12px; text-align: center; }
+    .dcc-tag { background: rgba(96,165,250,0.2); color: #60a5fa; font-size: 7px; font-weight: 600; padding: 2px 8px; border-radius: 99px; display: inline-block; margin-bottom: 6px; }
+    .dcc-title { color: #fff; font-size: 13px; font-weight: 800; letter-spacing: -0.3px; }
+    .dcc-sub { color: #93c5fd; font-size: 8px; margin-top: 3px; }
+    .dcc-features { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 10px; }
+    .dcc-feature { background: rgba(255,255,255,0.1); border-radius: 4px; padding: 4px 6px; color: #e0f2fe; font-size: 7px; font-weight: 500; }
+
+    /* PROCESS */
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .step { background: var(--bg); padding: 28px 24px; }
+    .step-n { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--blue); margin-bottom: 12px; }
+    .step h4 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .step p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* PRICING */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .plan { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px 28px; transition: border-color 0.2s; }
+    .plan:hover { border-color: var(--blue); }
+    .plan.featured { border-color: var(--blue); background: rgba(59,130,246,0.08); }
+    .plan-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #93c5fd; background: rgba(59,130,246,0.15); padding: 3px 10px; border-radius: 99px; margin-bottom: 14px; }
+    .plan h3 { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .plan-desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+    .plan-price { font-size: 44px; font-weight: 800; color: var(--text); letter-spacing: -0.04em; line-height: 1; margin-bottom: 4px; }
+    .plan-price sup { font-size: 20px; font-weight: 500; vertical-align: super; }
+    .plan-note { font-size: 12px; color: var(--muted); margin-bottom: 24px; }
+    .features { list-style: none; margin-bottom: 28px; }
+    .features li { font-size: 13px; color: var(--muted); padding: 7px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .features li:last-child { border-bottom: none; }
+    .features li::before { content: '✓'; color: var(--blue); font-weight: 700; font-size: 12px; flex-shrink: 0; }
+    .plan-btn { display: block; text-align: center; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+    .plan-btn-blue { background: var(--blue); color: #fff; }
+    .plan-btn-blue:hover { background: var(--blue-dk); }
+    .plan-btn-outline { border: 1px solid var(--border); color: var(--muted); }
+    .plan-btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .about-text .eyebrow { text-align: left; }
+    .about-text h2 { font-size: clamp(26px, 3.5vw, 38px); }
+    .about-text p { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 12px; }
+    .about-text p strong { color: var(--text); }
+    .about-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+    .about-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .about-row:last-child { border-bottom: none; }
+    .about-key { color: var(--muted); }
+    .about-val { color: var(--text); font-weight: 600; }
+    .about-val.blue { color: var(--blue); }
+
+    /* CONTACT */
+    .contact-wrap { background: var(--bg2); border-top: 1px solid var(--border); padding: 88px 24px; }
+    .contact-box { max-width: 540px; margin: 0 auto; }
+    .contact-box h2 { text-align: center; margin-bottom: 8px; }
+    .contact-box > p { text-align: center; font-size: 15px; color: var(--muted); margin-bottom: 36px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .fg { margin-bottom: 12px; }
+    .fg label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .fg input, .fg textarea, .fg select { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'Space Grotesk', sans-serif; font-size: 14px; padding: 11px 14px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; appearance: none; }
+    .fg input:focus, .fg textarea:focus, .fg select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+    .fg textarea { resize: vertical; min-height: 96px; }
+    .form-btn { width: 100%; background: var(--blue); color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; padding: 14px; border: none; border-radius: 10px; cursor: pointer; margin-top: 6px; transition: background 0.2s; }
+    .form-btn:hover { background: var(--blue-dk); }
+    .form-success { display: none; text-align: center; padding: 40px; color: var(--blue); font-size: 16px; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 28px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: var(--bg); }
+    .footer-logo { font-size: 15px; font-weight: 800; color: var(--text); }
+    .footer-logo span { color: var(--blue); }
+    .footer-tag { font-size: 10px; color: var(--light); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+    footer p { font-size: 12px; color: var(--light); }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }
+      .services-grid, .ba-grid, .demos-grid, .pricing-grid, .about-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .stats { gap: 32px; }
+    }
+    @media (max-width: 480px) { .steps-grid { grid-template-columns: 1fr; } }
+
+    /* ── PAGE LOAD ANIMATION ── */
+    body { opacity: 0; }
+    body.loaded { opacity: 1; transition: opacity 0.6s ease; }
+
+    /* Nav slides down */
+    nav { transform: translateY(-100%); opacity: 0; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.6s ease; }
+    body.loaded nav { transform: translateY(0); opacity: 1; }
+
+    /* Hero elements stagger in */
+    .hero-badge { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease 0.2s, transform 0.6s cubic-bezier(0.16,1,0.3,1) 0.2s; }
+    .hero h1    { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease 0.35s, transform 0.6s cubic-bezier(0.16,1,0.3,1) 0.35s; }
+    .hero-sub   { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease 0.48s, transform 0.6s cubic-bezier(0.16,1,0.3,1) 0.48s; }
+    .hero-actions { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease 0.6s, transform 0.6s cubic-bezier(0.16,1,0.3,1) 0.6s; }
+
+    body.loaded .hero-badge,
+    body.loaded .hero h1,
+    body.loaded .hero-sub,
+    body.loaded .hero-actions { opacity: 1; transform: translateY(0); }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* Hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    .mobile-menu { display: none; position: fixed; top: 60px; left: 0; right: 0; background: var(--bg2); border-bottom: 1px solid var(--border); padding: 20px 24px; z-index: 99; flex-direction: column; gap: 4px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 16px; color: var(--text); text-decoration: none; padding: 12px 0; border-bottom: 1px solid var(--border); font-weight: 500; }
+    .mobile-menu a:last-child { border-bottom: none; }
+    @media (max-width: 768px) { .hamburger { display: flex; } .nav-links { display: none !important; } }
+
+    /* Testimonials */
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .testimonial { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; }
+    .testimonial-stars { color: #f59e0b; font-size: 14px; margin-bottom: 12px; letter-spacing: 2px; }
+    .testimonial-text { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+    .testimonial-author { display: flex; align-items: center; gap: 10px; }
+    .testimonial-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; }
+    .testimonial-name { font-size: 13px; font-weight: 700; color: var(--text); }
+    .testimonial-biz { font-size: 11px; color: var(--muted); }
+    @media(max-width:768px){.testimonials-grid{grid-template-columns:1fr;}}
+
+    /* FAQ */
+    .faq-list { max-width: 680px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-question { width: 100%; text-align: left; background: none; border: none; padding: 20px 0; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .faq-question:hover { color: var(--blue); }
+    .faq-icon { font-size: 20px; color: var(--blue); flex-shrink: 0; transition: transform 0.3s; }
+    .faq-answer { font-size: 14px; color: var(--muted); line-height: 1.75; padding-bottom: 20px; display: none; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-wordmark" style="color:#ffffff;">A<span style="color:#3b82f6;">Dev</span></div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact" class="nav-cta">Get started</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="closeMenu()">Services</a>
+  
+  <a href="#pricing" onclick="closeMenu()">Pricing</a>
+  <a href="#contact" onclick="closeMenu()">Get started</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Websites & Software for Small Business</div>
+  <h1 style="text-align:center;">Stop losing customers<br><em>to a bad website.</em></h1>
+  <p class="hero-sub">Custom websites and invoicing tools built for small businesses in your community. Fast, affordable, personal.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Start a project</a>
+    <a href="#pricing" class="btn-secondary">See pricing</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats reveal">
+  <div class="stat">
+    <div class="stat-num">1–2 <span>wk</span></div>
+    <div class="stat-label">Typical build time</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num"><span>$</span>175</div>
+    <div class="stat-label">Starting price</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">24 <span>hr</span></div>
+    <div class="stat-label">Response time</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num"><span>1 </span>call</div>
+    <div class="stat-label">To get started</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div class="bg2" id="services">
+  <div class="section section-center">
+    <div class="eyebrow">What We Build</div>
+    <h2>Two services. Both done right.</h2>
+    <p class="section-sub">Not a hundred features — just the two things small businesses actually need.</p>
+    <div class="services-grid reveal">
+      <div class="svc">
+        <h3>Business Websites</h3>
+        <p>A fast, clean website built around your business. Not a template — designed for you, with your content, your look, your name on it.</p>
+        <a href="#contact" class="svc-link">Get started →</a>
+      </div>
+      <div class="svc">
+        <h3>Invoicing & Estimates</h3>
+        <p>Stop writing invoices by hand. Send estimates, convert to invoices, and track payments — all in a web app built around your workflow.</p>
+        <a href="#contact" class="svc-link">Get started →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<div class="bg2">
+  <div class="section section-center">
+    <div class="eyebrow">The Process</div>
+    <h2>Simple start to finish.</h2>
+    <p class="section-sub">No complicated onboarding. No waiting weeks to hear back.</p>
+    <div class="steps-grid reveal">
+      <div class="step"><div class="step-n">01</div><h4>We talk</h4><p>Tell me what your business needs. I'll ask the right questions and give you a straight quote.</p></div>
+      <div class="step"><div class="step-n">02</div><h4>We build</h4><p>I build it fast — typically 1 to 2 weeks. You see progress the whole way through.</p></div>
+      <div class="step"><div class="step-n">03</div><h4>You launch</h4><p>One-time fee to build. Small monthly to keep it running. No surprises.</p></div>
+      <div class="step"><div class="step-n">04</div><h4>Direct support</h4><p>Need a change or something breaks? You reach me directly — not a help desk.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div id="pricing">
+  <div class="section section-center">
+    <div class="eyebrow">Pricing</div>
+    <h2>Built for your budget.</h2>
+    <p class="section-sub">Affordable pricing for every stage of your business. No contracts, no surprises.</p>
+    <div class="pricing-grid reveal">
+      <div class="plan">
+        <h3>Starter</h3>
+        <p class="plan-desc">New business, just getting started</p>
+        <div class="plan-price"><sup>$</sup>175</div>
+        <p class="plan-note">one-time · then $80/mo</p>
+        <ul class="features">
+          <li>Custom website (up to 3 pages)</li>
+          <li>Mobile friendly</li>
+          <li>Contact form</li>
+          <li>SSL & hosting setup</li>
+          <li>1 update per month</li>
+          <li>Email support — 48hr response</li>
+        </ul>
+        <a href="#contact" class="plan-btn plan-btn-outline">Get started</a>
+      </div>
+      <div class="plan featured">
+        <div class="plan-badge">Most popular</div>
+        <h3>Growth</h3>
+        <p class="plan-desc">Established, wants to level up</p>
+        <div class="plan-price"><sup>$</sup>300</div>
+        <p class="plan-note">one-time · then $125/mo</p>
+        <ul class="features">
+          <li>Everything in Starter</li>
+          <li>Up to 6 pages</li>
+          <li>Invoicing & estimates software</li>
+          <li>Google Business Profile setup</li>
+          <li>Basic SEO setup</li>
+          <li>3 updates per month</li>
+          <li>Priority support — 24hr response</li>
+          <li>Monthly site backup</li>
+        </ul>
+        <a href="#contact" class="plan-btn plan-btn-blue">Get started</a>
+      </div>
+      <div class="plan">
+        <h3>Premium</h3>
+        <p class="plan-desc">Full digital presence, handled</p>
+        <div class="plan-price"><sup>$</sup>500</div>
+        <p class="plan-note">one-time · then $175/mo</p>
+        <ul class="features">
+          <li>Everything in Growth</li>
+          <li>Unlimited pages</li>
+          <li>Professional email setup</li>
+          <li>Logo design</li>
+          <li>Social media setup</li>
+          <li>Advanced SEO</li>
+          <li>Unlimited updates</li>
+          <li>Same day support</li>
+          <li>Monthly performance report</li>
+        </ul>
+        <a href="#contact" class="plan-btn plan-btn-outline">Get started</a>
+      </div>
+    </div>
+
+    <!-- ADD-ONS -->
+    <div style="margin-top:64px;">
+      <h3 style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:8px;">Add-On Services</h3>
+      <p style="font-size:15px;color:var(--muted);margin-bottom:32px;">Already have a website? Need just one thing? Pick what you need.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:860px;margin:0 auto;">
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:left;">
+          
+          <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">Professional Email</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:12px;">Get name@yourbusiness.com — looks professional instantly.</div>
+          <div style="font-size:18px;font-weight:800;color:var(--blue);">$50 <span style="font-size:12px;font-weight:400;color:var(--muted);">setup</span></div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:left;">
+          
+          <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">Google Business Setup</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:12px;">Get on Google Maps so customers can find you locally.</div>
+          <div style="font-size:18px;font-weight:800;color:var(--blue);">$75 <span style="font-size:12px;font-weight:400;color:var(--muted);">one-time</span></div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:left;">
+          
+          <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">Social Media Setup</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:12px;">Facebook & Instagram business pages set up and branded.</div>
+          <div style="font-size:18px;font-weight:800;color:var(--blue);">$100 <span style="font-size:12px;font-weight:400;color:var(--muted);">one-time</span></div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:left;">
+          
+          <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">Logo Design</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:12px;">A clean professional logo for your business. Yours forever.</div>
+          <div style="font-size:18px;font-weight:800;color:var(--blue);">$150 <span style="font-size:12px;font-weight:400;color:var(--muted);">one-time</span></div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:left;">
+          
+          <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">SEO Setup</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:12px;">Get found on Google when people search for your business.</div>
+          <div style="font-size:18px;font-weight:800;color:var(--blue);">$150 <span style="font-size:12px;font-weight:400;color:var(--muted);">one-time</span></div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:left;">
+          
+          <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">Invoicing Software</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:12px;">Custom invoicing & estimates tool built for your workflow.</div>
+          <div style="font-size:18px;font-weight:800;color:var(--blue);">$200 <span style="font-size:12px;font-weight:400;color:var(--muted);">one-time</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMING SOON -->
+    <div style="margin-top:48px;background:linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 100%);border-radius:16px;padding:40px;text-align:center;">
+      <div style="display:inline-block;background:rgba(255,255,255,0.15);color:#fff;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:4px 14px;border-radius:99px;margin-bottom:16px;">Coming Soon</div>
+      <h3 style="font-size:24px;font-weight:800;color:#fff;margin-bottom:8px;">Digital Marketing</h3>
+      <p style="font-size:15px;color:#93c5fd;max-width:420px;margin:0 auto 20px;">Google Ads, Facebook Ads, and Instagram campaigns managed for you. Get more customers every month on autopilot.</p>
+      <a href="#contact" style="background:#fff;color:#1d4ed8;font-size:14px;font-weight:700;padding:12px 28px;border-radius:8px;text-decoration:none;">Get notified when it launches</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- FAQ -->
+<div class="bg2">
+  <div class="section section-center">
+    <div class="eyebrow">FAQ</div>
+    <h2>Common questions.</h2>
+    <p class="section-sub">Everything you need to know before getting started.</p>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">How long does it take to build my website? <span class="faq-icon">+</span></button>
+        <div class="faq-answer">Most websites are done in 1–2 weeks. Invoicing software takes about 2 weeks. You'll see progress the whole way through — no waiting in the dark.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Do I own my website when it's done? <span class="faq-icon">+</span></button>
+        <div class="faq-answer">100% yes. Your website, your domain, your content — all yours. The monthly fee covers hosting and maintenance. If you ever leave, you take everything with you.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">What if I want changes after it's built? <span class="faq-icon">+</span></button>
+        <div class="faq-answer">That's what the monthly fee is for. You reach me directly and I make the changes. No tickets, no waiting in line. Most updates are done same day.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Do I need to know anything about tech? <span class="faq-icon">+</span></button>
+        <div class="faq-answer">Not at all. I handle everything — domain, hosting, setup, updates. You focus on running your business. I handle the rest.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">What's the difference between the plans? <span class="faq-icon">+</span></button>
+        <div class="faq-answer">Starter gets you online fast with a clean website. Growth adds invoicing software and Google Business setup so you can save time and get found. Premium handles your entire digital presence — email, logo, social media, SEO, and more.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Do you work with Spanish-speaking business owners? <span class="faq-icon">+</span></button>
+        <div class="faq-answer">Yes — hablo español. I'm from the community and I understand what local Hispanic business owners need. You can communicate with me in English or Spanish, whatever is more comfortable.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">Is there a contract? <span class="faq-icon">+</span></button>
+        <div class="faq-answer">No long-term contracts. The monthly fee is month-to-month. You can cancel anytime.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-wrap" id="contact">
+  <div class="contact-box">
+    <h2>Start a project</h2>
+    <p>Tell me about your business. I'll follow up within 24 hours.</p>
+    <div id="contactForm">
+      <div class="form-row">
+        <div class="fg"><label>Your name</label><input type="text" id="fname" placeholder="Jane Smith" /></div>
+        <div class="fg"><label>Business name</label><input type="text" id="fbiz" placeholder="Smith Electric" /></div>
+      </div>
+      <div class="fg"><label>Email or phone</label><input type="text" id="fcontact" placeholder="build@adevv.com" /></div>
+      <div class="fg">
+        <label>What do you need?</label>
+        <select id="fservice">
+          <option value="">Select a service</option>
+          <option>Website — Starter ($175)</option>
+          <option>Website + Invoicing — Growth ($300)</option>
+          <option>Full Package — Premium ($500)</option>
+          <option>Not sure — let's talk</option>
+        </select>
+      </div>
+      <div class="fg"><label>Tell me about your business</label><textarea id="fmsg" placeholder="What does your business do? What problem are you trying to solve?"></textarea></div>
+      <button class="form-btn" id="submitBtn" onclick="handleSubmit()">Send message</button>
+    </div>
+    <div class="form-success" id="formSuccess">✓ Message received. Thiago will be in touch within 24 hours.<br><br> · build@adevv.com</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">A<span>D</span>ev</div>
+    <div class="footer-tag">More than developing.</div>
+  </div>
+  <p>© 2026</p>
+</footer>
+
+<script>
+// Form submit — sends to Formspree
+async function handleSubmit() {
+  const name = document.getElementById('fname').value.trim();
+  const biz = document.getElementById('fbiz').value.trim();
+  const contact = document.getElementById('fcontact').value.trim();
+  const service = document.getElementById('fservice').value;
+  const msg = document.getElementById('fmsg').value.trim();
+  if (!name || !contact) { alert('Please enter your name and contact info.'); return; }
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  try {
+    const res = await fetch('https://formspree.io/f/mbdebagy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name, business: biz, contact, service, message: msg })
+    });
+    if (res.ok) {
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    } else {
+      btn.textContent = 'Send message';
+      btn.disabled = false;
+      alert('Something went wrong. Please call or text: ');
+    }
+  } catch(e) {
+    btn.textContent = 'Send message';
+    btn.disabled = false;
+    alert('Something went wrong. Please call or text: ');
+  }
+}
+
+// Hamburger menu
+function toggleMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+// FAQ accordion
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// Page load animation
+window.addEventListener('load', () => {
+  setTimeout(() => document.body.classList.add('loaded'), 80);
+});
+
+// Scroll reveal
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
